@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio 2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #5D4037;
+            --secondary: #8D6E63;
+            --dark: #3E2723;
+            --light: #D7CCC8;
+            --accent: #A1887F;
+            --text: #3E2723;
+            --light-text: #EFEBE9;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(93, 64, 55, 0.1) 0%, rgba(141, 110, 99, 0.1) 100%);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .skill-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .certificate-card {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        .certificate-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .contact-input {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-input:focus {
+            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.3);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .slide-right {
+            animation: slideRight 0.8s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideRight {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode {
+            background-color: #1E1B18;
+            color: var(--light-text);
+        }
+        
+        .dark-mode .bg-white {
+            background-color: #2B2621;
+            color: var(--light-text);
+        }
+        
+        .dark-mode .text-gray-700 {
+            color: var(--light);
+        }
+        
+        .dark-mode .text-gray-800 {
+            color: var(--light);
+        }
+        
+        .dark-mode .bg-gray-100 {
+            background-color: #2B2621;
+        }
+        
+        .dark-mode .timeline-item::before {
+            background: var(--secondary);
+        }
+        
+        .dark-mode .timeline-dot {
+            background: var(--secondary);
+        }
+        
+        /* Custom brown shades */
+        .bg-brown-50 { background-color: #EFEBE9; }
+        .bg-brown-100 { background-color: #D7CCC8; }
+        .bg-brown-200 { background-color: #BCAAA4; }
+        .bg-brown-300 { background-color: #A1887F; }
+        .bg-brown-400 { background-color: #8D6E63; }
+        .bg-brown-500 { background-color: #795548; }
+        .bg-brown-600 { background-color: #6D4C41; }
+        .bg-brown-700 { background-color: #5D4037; }
+        .bg-brown-800 { background-color: #4E342E; }
+        .bg-brown-900 { background-color: #3E2723; }
+        
+        .text-brown-50 { color: #EFEBE9; }
+        .text-brown-100 { color: #D7CCC8; }
+        .text-brown-200 { color: #BCAAA4; }
+        .text-brown-300 { color: #A1887F; }
+        .text-brown-400 { color: #8D6E63; }
+        .text-brown-500 { color: #795548; }
+        .text-brown-600 { color: #6D4C41; }
+        .text-brown-700 { color: #5D4037; }
+        .text-brown-800 { color: #4E342E; }
+        .text-brown-900 { color: #3E2723; }
+        
+        .border-brown-500 { border-color: #795548; }
+    </style>
+</head>
+<body class="relative">
+    <!-- Dark mode toggle -->
+    <button id="darkModeToggle" class="fixed right-6 bottom-6 z-50 w-12 h-12 rounded-full bg-brown-700 text-white shadow-lg flex items-center justify-center">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md shadow-sm z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-xl font-bold text-brown-700 flex items-center">
+                        <span class="ml-2"><em>Portfolio 2.0</em></span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-brown-800 hover:text-brown-600">Home</a>
+                    <a href="#about" class="nav-link text-brown-800 hover:text-brown-600">About</a>
+                    <a href="#skills" class="nav-link text-brown-800 hover:text-brown-600">Skills</a>
+                    <a href="#experience" class="nav-link text-brown-800 hover:text-brown-600">Experience</a>
+                    <a href="#certifications" class="nav-link text-brown-800 hover:text-brown-600">Certifications</a>
+                    <a href="#contact" class="nav-link text-brown-800 hover:text-brown-600">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-brown-800 hover:text-brown-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">About</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">Skills</a>
+                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">Experience</a>
+                <a href="#certifications" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">Certifications</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-brown-800 hover:text-brown-600 hover:bg-brown-100">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center pt-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 slide-right">
+                    <h1 class="text-4xl md:text-6xl font-bold text-brown-900 mb-4">Hi, I'm <span class="text-brown-600">Bipasha Chakraborty</span></h1>
+                    <h2 class="text-2xl md:text-3xl font-semibold text-brown-800 mb-6">Frontend Developer</h2>
+                    <p class="text-lg text-brown-700 mb-8 max-w-lg">A third-year Computer Science and Engineering student studying at VIT BHOPAL UNIVERSITY.</p>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="px-6 py-3 bg-brown-600 text-white rounded-lg hover:bg-brown-700 transition duration-300 shadow-lg pulse">Contact Me</a>
+                        <a href="#about" class="px-6 py-3 border border-brown-600 text-brown-600 rounded-lg hover:bg-brown-100 transition duration-300">Know More</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center slide-up">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-brown-200 absolute -z-10 top-4 left-4"></div>
+                        <img src="image.jpg" 
+                              alt="Profile" 
+                              class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-brown-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-brown-900 mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-brown-600 mx-auto mb-6"></div>
+                <p class="text-brown-700 max-w-2xl mx-auto">Welcome to my World</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-10 md:mb-0 flex justify-center slide-right">
+                    <img src="image.jpg" 
+                          alt="About Me" 
+                          class="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg">
+                </div>
+                <div class="md:w-2/3 md:pl-12 slide-up">
+                    <h3 class="text-2xl font-semibold text-brown-900 mb-4">Who am I?</h3>
+                    <p class="text-brown-700 mb-6">A third-year Computer Science and Engineering student passionate about AI and innovative systems, with proven leadership in project work and community service. Experienced in machine learning, OpenCV, and team management. Eager to explore and learn new technologies.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <h4 class="font-medium text-brown-800 mb-2">Name:</h4>
+                            <p class="text-brown-700">Bipasha Chakraborty</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-brown-800 mb-2">Email:</h4>
+                            <p class="text-brown-700">bipasha.chakraborty.cse@gmail.com</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-brown-800 mb-2">From:</h4>
+                            <p class="text-brown-700">Jorhat, Assam</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-brown-800 mb-2">Current Location:</h4>
+                            <p class="text-brown-700">Bhopal, Madhya Pradesh</p>
+                        </div>
+                    </div>
+                    <a href="RESUME(MAIN).pdf" target="_blank" rel="noopener noreferrer" 
+                          class="px-4 py-2 bg-brown-600 text-white rounded hover:bg-brown-700 transition duration-300">
+                          <i class="fas fa-download mr-2"></i> View Resume
+                         </a>
+                         <a href="#contact" class="px-4 py-2 border border-brown-600 text-brown-600 rounded hover:bg-brown-100 transition duration-300">
+                            <i class="fas fa-paper-plane mr-2"></i> Contact Me
+                        </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-brown-900 mb-4">My Skills</h2>
+                <div class="w-20 h-1 bg-brown-600 mx-auto mb-6"></div>
+                <p class="text-brown-700 max-w-2xl mx-auto">Technologies I've worked with</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">HTML5</h3>
+                    <p class="text-brown-700">Advanced</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 93%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 2 -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">CSS3</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 79%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 3 -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">JavaScript</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill: Python -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">Python</h3>
+                    <p class="text-brown-700">Advanced</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill: C++ -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">C++</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill: C -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">C</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+
+                <!-- Skill: Java -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-java"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">Java</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 8 -->
+                <div class="skill-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-brown-100">
+                    <div class="text-brown-600 text-4xl mb-4">
+                        <i class="fab fa-figma"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-brown-900 mb-2">Figma</h3>
+                    <p class="text-brown-700">Intermediate</p>
+                    <div class="w-full bg-brown-100 rounded-full h-2.5 mt-3">
+                        <div class="bg-brown-600 h-2.5 rounded-full" style="width: 65%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-brown-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-brown-900 mb-4">My Experience</h2>
+                <div class="w-20 h-1 bg-brown-600 mx-auto mb-6"></div>
+                <p class="text-brown-700 max-w-2xl mx-auto">My professional journey so far</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+
+                 <!-- Mahro Rajasthani Club -->
+                <div class="timeline-item slide-up">
+                    <div class="timeline-dot">
+                        <i class="fas fa-users text-xs"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-brown-900">Core Member</h3>
+                            <span class="bg-brown-100 text-brown-800 text-xs font-medium px-2.5 py-0.5 rounded">Feb 2025 – Present</span>
+                        </div>
+                        <h4 class="text-brown-600 font-medium mb-3">Mahro Rajasthani Club</h4>
+                        <p class="text-brown-700">Collaborated with the Event Management Team to organize two major university fests, each drawing 1,000+ attendees.</p>
+                    </div>
+                </div>
+                <!-- AI Threat Analysis Article -->
+                <div class="timeline-item slide-up">
+                    <div class="timeline-dot">
+                        <i class="fas fa-book text-xs"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-brown-900">AI Threat Analysis Article</h3>
+                            <span class="bg-brown-100 text-brown-800 text-xs font-medium px-2.5 py-0.5 rounded">Oct 2024</span>
+                        </div>
+                        <h4 class="text-brown-600 font-medium mb-3">Independent Research</h4>
+                        <p class="text-brown-700">Explored societal and economic implications of AI governance and autonomy. Authored and published an article contributing to global discussions among researchers and policy makers.</p>
+                    </div>
+                </div>
+
+                
+
+                <!-- Northeast Club -->
+                <div class="timeline-item slide-up">
+                    <div class="timeline-dot">
+                        <i class="fas fa-users text-xs"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-brown-900">Core Member</h3>
+                            <span class="bg-brown-100 text-brown-800 text-xs font-medium px-2.5 py-0.5 rounded">Jan 2024 – Nov 2024</span>
+                        </div>
+                        <h4 class="text-brown-600 font-medium mb-3">Northeast Club</h4>
+                        <p class="text-brown-700">Helped launch the club, growing it to 50+ members. Organized three successful events and boosted cultural engagement by 30%, with a focus on Hmong and Assamese traditions.</p>
+                    </div>
+                </div>
+
+                <!-- Hostel Representative -->
+                <div class="timeline-item slide-up">
+                    <div class="timeline-dot">
+                        <i class="fas fa-building text-xs"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-brown-900">Hostel Representative</h3>
+                            <span class="bg-brown-100 text-brown-800 text-xs font-medium px-2.5 py-0.5 rounded">Feb 2024-Dec 2024</span>
+                        </div>
+                        <h4 class="text-brown-600 font-medium mb-3">VIT Bhopal – Block 1 Girls' Hostel</h4>
+                        <p class="text-brown-700">Managed cleanliness and safety protocols for 1600+ students. Acted as liaison between students and administration to ensure wellbeing and order.</p>
+                    </div>
+                </div>
+
+                <!-- School House Captain -->
+                <div class="timeline-item slide-up">
+                    <div class="timeline-dot">
+                        <i class="fas fa-graduation-cap text-xs"></i>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-semibold text-brown-900">House Captain</h3>
+                            <span class="bg-brown-100 text-brown-800 text-xs font-medium px-2.5 py-0.5 rounded">Apr 2022 – Jun 2023</span>
+                        </div>
+                        <h4 class="text-brown-600 font-medium mb-3">K.V. No.1 Air Force, Jorhat</h4>
+                        <p class="text-brown-700">Led school-level events, coordinated student teams, and managed key responsibilities during chief guest visits. Strengthened leadership and planning skills.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-brown-900 mb-4">My Certifications</h2>
+                <div class="w-20 h-1 bg-brown-600 mx-auto mb-6"></div>
+                <p class="text-brown-700 max-w-2xl mx-auto">Credentials that validate my expertise</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certification 1 -->
+                <div class="certificate-card bg-white rounded-lg shadow-md overflow-hidden border border-brown-100 hover:shadow-lg">
+                    <div class="h-48 bg-brown-800 flex items-center justify-center">
+                        <i class="fas fa-certificate text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brown-900 mb-2">Introduction to Machine Learning</h3>
+                        <p class="text-brown-600 font-medium mb-3">NPTEL (IIT Madras) – Elite Badge – 2025</p>
+                        <p class="text-brown-700">Completed under Swayam with an Elite badge for outstanding performance.</p>
+                    </div>
+                </div>
+
+                <!-- Certification 2 -->
+                <div class="certificate-card bg-white rounded-lg shadow-md overflow-hidden border border-brown-100 hover:shadow-lg">
+                    <div class="h-48 bg-brown-700 flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brown-900 mb-2">Generative AI Certification</h3>
+                        <p class="text-brown-600 font-medium mb-3">LinkedIn Learning – 2024</p>
+                        <p class="text-brown-700">Covered foundational concepts in generative models, prompt engineering, and applications of GenAI.</p>
+                    </div>
+                </div>
+
+                <!-- Certification 3 -->
+                <div class="certificate-card bg-white rounded-lg shadow-md overflow-hidden border border-brown-100 hover:shadow-lg">
+                    <div class="h-48 bg-brown-600 flex items-center justify-center">
+                        <i class="fas fa-language text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brown-900 mb-2">EF SET English Certificate (C1)</h3>
+                        <p class="text-brown-600 font-medium mb-3">EF SET – Score: 70/100</p>
+                        <p class="text-brown-700">Achieved C1 Advanced level in English proficiency test conducted by EF Standard English Test.</p>
+                    </div>
+                </div>
+
+                <!-- Certification 4 -->
+                <div class="certificate-card bg-white rounded-lg shadow-md overflow-hidden border border-brown-100 hover:shadow-lg">
+                    <div class="h-48 bg-brown-500 flex items-center justify-center">
+                        <i class="fab fa-android text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brown-900 mb-2">Android Development</h3>
+                        <p class="text-brown-600 font-medium mb-3">IMARTICUS Learning – 2025</p>
+                        <p class="text-brown-700">Learned core Android concepts, UI design, activity lifecycle, and basic app development using Java.</p>
+                    </div>
+                </div>
+
+                <!-- Certification 5 -->
+                <div class="certificate-card bg-white rounded-lg shadow-md overflow-hidden border border-brown-100 hover:shadow-lg">
+                    <div class="h-48 bg-brown-400 flex items-center justify-center">
+                        <i class="fas fa-trophy text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brown-900 mb-2">International Mathematical Olympiad</h3>
+                        <p class="text-brown-600 font-medium mb-3">School Rank 1 – 2023</p>
+                        <p class="text-brown-700">Secured School Rank 1 in the IMO organized at national level – a testament to strong analytical skills.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-brown-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl font-bold text-brown-900 mb-4">Contact Me</h2>
+                <div class="w-20 h-1 bg-brown-600 mx-auto mb-6"></div>
+                <p class="text-brown-700 max-w-2xl mx-auto">Get in touch for collaborations or just a friendly hello</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2 slide-right">
+                    <h3 class="text-2xl font-semibold text-brown-900 mb-6">Let's Connect</h3>
+                    <p class="text-brown-700 mb-8">I'm currently building projects and learning about various field as a 3rd year CSE student. Connect with me for any query.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-brown-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-map-marker-alt text-brown-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-brown-800">Location</h4>
+                                <p class="text-brown-700">VIT BHOPAL UNIVERSITY</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-brown-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-brown-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-brown-800">Email</h4>
+                                <p class="text-brown-700">bipasha.chakraborty.cse@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-brown-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-phone-alt text-brown-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-brown-800">Phone Number</h4>
+                                <p class="text-brown-700">+91 7896493803</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-medium text-brown-800 mb-4">Follow Me</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/BIPASHA-CHAKRABORTY" class="social-icon w-10 h-10 bg-brown-600 text-white rounded-full flex items-center justify-center hover:bg-brown-700 transition">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/bipasha-chakraborty/" class="social-icon w-10 h-10 bg-brown-600 text-white rounded-full flex items-center justify-center hover:bg-brown-700 transition">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://leetcode.com/u/BIPASHA-CHAKRABORTY/" target="_blank" rel="noopener noreferrer" class="social-icon w-10 h-10 bg-brown-600 text-white rounded-full flex items-center justify-center hover:bg-brown-700 transition">
+                                <i class="fab fa-free-code-camp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 slide-up">
+                    <form action="https://formsubmit.co/bipasha.chakraborty.cse@gmail.com" method="POST" class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="mb-6">
+                            <label for="name" class="block text-brown-800 font-medium mb-2">Your Name</label>
+                            <input type="text" id="name" name="name" class="contact-input w-full px-4 py-2 border border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-600" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-brown-800 font-medium mb-2">Your Email</label>
+                            <input type="email" id="email" name="email" class="contact-input w-full px-4 py-2 border border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-600" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-brown-800 font-medium mb-2">Subject</label>
+                            <input type="text" id="subject" name="subject" class="contact-input w-full px-4 py-2 border border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-600" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-brown-800 font-medium mb-2">Your Message</label>
+                            <textarea id="message" name="message" rows="5" class="contact-input w-full px-4 py-2 border border-brown-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brown-600" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-brown-600 text-white py-3 px-4 rounded-lg hover:bg-brown-700 transition duration-300 font-medium">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-brown-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <a href="#" class="text-xl font-bold text-white flex items-center">
+                        <span><em>Portfolio 2.0</em></span>
+                    </a>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-brown-300">© 2025 BIPASHA CHAKRABORTY <br> All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            // Change icon based on mode
+            const icon = darkModeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.slide-up, .slide-right, .fade-in');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0) translateX(0)';
+                }
+            });
+        };
+        
+        // Initialize animations
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Form submission
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // Here you would typically send the data to a server
+                console.log({ name, email, subject, message });
+                
+                // Show success message
+                alert('Thank you for your message! I will get back to you soon.');
+                form.reset();
+            });
+        }
+    </script>
+</body>
+</html>
